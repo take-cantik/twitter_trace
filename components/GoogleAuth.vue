@@ -1,11 +1,20 @@
 <template>
   <div>
-    <div>v-if login</div>
+    <v-btn
+      @click="googleLogin"
+    >
+      login
+    </v-btn>
     <div>v-if logout</div>
   </div>
 </template>
 
-<script>
-  import firebase from 'firebase'
-  import { db } from '@/firebase/firestore.js'
+<script lang="ts">
+  export default {
+    methods: {
+      googleLogin () {
+        this.$store.dispatch('googleLogin')
+      },
+    }
+  }
 </script>
