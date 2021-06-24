@@ -23,6 +23,7 @@ export default {
   plugins: [
     // use 'import firebase from "~/plugins/firebase.js"'
     '~/plugins/firebase',
+    '~/plugins/composition',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -55,6 +56,21 @@ export default {
       appId: process.env.FIREBASE_APP_ID,
       measurementId: process.env.FIREBASE_MEASUREMENT_ID
     },
+    services: {
+      auth: true,
+      firestore: true,
+    },
+    auth: {
+      persistence: 'local', // default
+      initialize: {
+        onAuthStateChangedMutation: 'ON_AUTH_STATE_CHANGED_MUTATION',
+        onAuthStateChangedAction: 'onAuthStateChangedAction',
+        subscribeManually: false
+      },
+      ssr: false, // default
+      emulatorPort: 9099,
+      emulatorHost: 'http://localhost',
+    }
   },
 
   env: {
