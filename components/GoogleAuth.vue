@@ -10,14 +10,15 @@
 </template>
 
 <script lang="ts">
-  import { define } from '@nuxtjs/composition-api'
+  import { defineComponent, useContext } from '@nuxtjs/composition-api'
 
   export default defineComponent({
-    setup(_, { root }) {
+    setup() {
+      const { $fire, $fireModule } = useContext()
       const googleLogin = async () => {
         try {
-          const provider = new root.$fireModules.auth.GoogleAuthProvider()
-          root.$fire.auth.signInWithRedirect(provider)
+          const provider = new $fireModule.auth.GoogleAuthProvider()
+          $fire.auth.signInWithRedirect(provider)
         } catch (e) {
           console.error(e)
         }
