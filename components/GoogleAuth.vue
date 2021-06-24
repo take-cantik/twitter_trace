@@ -1,11 +1,30 @@
 <template>
   <div>
-    <div>v-if login</div>
-    <div>v-if logout</div>
+    <v-btn
+      @click="googleLogin"
+    >
+      login
+    </v-btn>
+    <div>logout</div>
   </div>
 </template>
 
-<script>
-  import firebase from 'firebase'
-  import { db } from '@/firebase/firestore.js'
+<script lang="ts">
+  import { defineComponent, useContext } from '@nuxtjs/composition-api'
+
+  export default defineComponent({
+    setup() {
+      const { $fire, $fireModule } = useContext()
+      const googleLogin = async () => {
+        try {
+          const provider = new $fireModule.auth.GoogleAuthProvider()
+          $fire.auth.signInWithRedirect(provider)
+        } catch (e) {
+          console.error(e)
+        }
+      }
+
+      return { googleLogin }
+    }
+  })
 </script>

@@ -6,7 +6,7 @@ export default {
     titleTemplate: '%s - twitter_trace',
     title: 'twitter_trace',
     htmlAttrs: {
-      lang: 'en',
+      lang: 'ja',
     },
     meta: [
       { charset: 'utf-8' },
@@ -22,7 +22,6 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     // use 'import firebase from "~/plugins/firebase.js"'
-    '~/plugins/firebase',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -32,38 +31,50 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
-    // https://go.nuxtjs.dev/vuetify
-    '@nuxtjs/vuetify',
+    '@nuxtjs/composition-api/module'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/firebase',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {},
 
-  // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
-  vuetify: {
-    customVariables: ['~/assets/variables.scss'],
-    theme: {
-      dark: true,
-      themes: {
-        dark: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
-          success: colors.green.accent3,
-        },
-      },
+  firebase: {
+    config: {
+      apiKey: process.env.FIREBASE_API_KEY,
+      authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+      messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+      appId: process.env.FIREBASE_APP_ID,
+      measurementId: process.env.FIREBASE_MEASUREMENT_ID
     },
+    services: {
+      auth: true,
+      firestore: true,
+    },
+    auth: {
+      persistence: 'local', // default
+      initialize: {
+        onAuthStateChangedMutation: 'ON_AUTH_STATE_CHANGED_MUTATION',
+        onAuthStateChangedAction: 'onAuthStateChangedAction',
+        subscribeManually: false
+      },
+      ssr: false, // default
+      emulatorPort: 9099,
+      emulatorHost: 'http://localhost',
+    }
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
+  generate: {
+    interval: 2000,
+  }
 }
