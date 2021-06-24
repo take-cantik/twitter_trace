@@ -5,16 +5,25 @@
     >
       login
     </v-btn>
-    <div>v-if logout</div>
+    <div>logout</div>
   </div>
 </template>
 
 <script lang="ts">
-  export default {
-    methods: {
-      googleLogin () {
-        this.$store.dispatch('googleLogin')
-      },
+  import { define } from '@nuxtjs/composition-api'
+
+  export default defineComponent({
+    setup(_, { root }) {
+      const googleLogin = async () => {
+        try {
+          const provider = new root.$fireModules.auth.GoogleAuthProvider()
+          root.$fire.auth.signInWithRedirect(provider)
+        } catch (e) {
+          console.error(e)
+        }
+      }
+
+      return { googleLogin }
     }
-  }
+  })
 </script>
